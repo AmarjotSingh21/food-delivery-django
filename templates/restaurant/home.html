@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+HomePage
+{% endblock title %}
+
+{% block content %}
+{{ user.username }}
+<a href="{% url 'restaurant-sign-out' %}">Log out</a>
+{% endblock content %}
