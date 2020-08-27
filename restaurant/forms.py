@@ -5,6 +5,8 @@ from .models import Restaurant
 
 
 class UserForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = User
         fields = ("username", "password",
