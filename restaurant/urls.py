@@ -6,10 +6,4 @@ from .views import restaurant_home, restaurant_sign_up
 app_name = 'restaurant'
 urlpatterns = [
     path('', restaurant_home, name='home'),
-    path('sign-up/', restaurant_sign_up, name='sign-up'),
-    path('sign-in/', LoginView.as_view(template_name='restaurant/sign_in.html'),
-         name='sign-in'),
-    path('sign-out/', LogoutView.as_view(template_name='restaurant/sign_out.html'),
-         name='sign-out'),
-
 ]
