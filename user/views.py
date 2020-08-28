@@ -7,7 +7,7 @@ from .forms import UserForm
 from restaurant.forms import RestaurantForm
 
 
-def restaurant_sign_up(request):
+def sign_up_view(request):
     user_form = UserForm()
     restaurant_form = RestaurantForm()
     if request.method == 'POST':
@@ -23,7 +23,7 @@ def restaurant_sign_up(request):
             login(request, authenticate(username=user_form.cleaned_data['username'],
                                         password=user_form.cleaned_data['password']))
             return redirect('restaurant:home')
-    return render(request, 'restaurant/sign_up.html', {
+    return render(request, 'user/sign_up.html', {
         'user_form': user_form,
         "restaurant_form": restaurant_form
     })

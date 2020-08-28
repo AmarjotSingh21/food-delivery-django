@@ -1,0 +1,18 @@
+{% extends 'user/base.html' %}
+
+{% block title %}
+Sign In
+{% endblock title %}
+
+
+{% block heading %}
+Restaurant - Sign In
+{% endblock heading %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-pink">Sign In</button>
+</form>
+{% endblock content %}
