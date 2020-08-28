@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +140,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
-LOGOUT_REDIRECT_URL = '/user/sign-in/'
+LOGOUT_REDIRECT_URL = '/restaurant/sign-in/'
 LOGIN_REDIRECT_URL = '/restaurant/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
