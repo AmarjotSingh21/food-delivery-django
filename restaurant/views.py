@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 from restaurant.forms import (
     RestaurantForm, UserForm, UserUpdateForm, MealForm)
+from .models import Meal
 
 
 @login_required(login_url='/restaurant/sign-in/')
@@ -56,7 +57,10 @@ def account_view(request):
 
 @login_required(login_url='/restaurant/sign-in/')
 def meal_view(request):
-    return render(request, 'restaurant/meal.html')
+    meals = Meal.objects.filter(
+        restaurant=request.user.restaurant).order_by('-id')
+    print(request.user)
+    return render(request, 'restaurant/meal.html', {'meals': meals})
 
 
 @login_required(login_url='/restaurant/sign-in/')

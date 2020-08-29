@@ -8,6 +8,10 @@ body {
   background-color: #3f3f63;
 }
 
+.bg-grey{
+  background-color: #88A1B2;
+}
+
 .btn-pink {
   color: white;
   background-color: #ee5462;
@@ -106,4 +110,14 @@ body {
 
 .content .card{
   border: none;
+}
+
+.table > thead > tr > th,
+.table > thead > tr > td {
+vertical-align: middle;
+}
+
+.table,
+.table > thead > tr > th {
+border-color: #88A1B2;
 }
