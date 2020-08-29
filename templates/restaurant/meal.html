@@ -1,12 +1,8 @@
 {% extends 'restaurant/base.html' %}
 
 
-
-{% block title %}
-HomePage
-{% endblock title %}
-
 {% block content %}
-Restaurant Meal Page
-<a href="{% url 'restaurant:sign-out' %}">Log out</a>
+Meals Page
+<a href="{% url 'restaurant:add-meal' %}" class="btn btn-pink">Add Meal</a>
+
 {% endblock content %}

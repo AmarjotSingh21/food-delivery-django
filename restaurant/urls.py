@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 
-from .views import home_view, account_view, meal_view, order_view, report_view, sign_up_view
+from .views import home_view, account_view, meal_view, order_view, report_view, sign_up_view, add_meal_view
 
 app_name = 'restaurant'
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
          name='sign-out'),
     path('account/', account_view, name='account'),
     path('meal/', meal_view, name='meal'),
+    path('meal/add/', add_meal_view, name='add-meal'),
     path('order/', order_view, name='order'),
     path('report/', report_view, name='report'),
 ]
