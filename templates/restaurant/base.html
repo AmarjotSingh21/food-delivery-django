@@ -7,18 +7,32 @@ Restaurant
 
 
 {% block sidebar %}
-Hi {{ user }}
-<hr>
+<div class="text-center">
+    <img src="{{ MEDIA_URL }}{{request.user.restaurant.logo}}" alt="logo" width="70" height="70" class="rounded-circle">
+    <br>
+    <br>
+    <h4>Hi, {{ user.get_full_name }}</h4>
+    <h5>{{ user.restaurant.name }}</h5>
+</div>
+<div class="list-group">
+    <span class="text-uppercase">
+        Dashboard
+    </span>
+    <a href="{% url 'restaurant:order' %}" class="list-group-item">Orders</a>
+    <a href="{% url 'restaurant:meal' %}" class="list-group-item">Meals</a>
+    <a href="{% url 'restaurant:report' %}" class="list-group-item">Reports</a>
+    <span class="text-uppercase">Profile</span>
+    <a href="{% url 'restaurant:account' %}" class="list-group-item">Account</a>
+</div>
 
-<a href="{% url 'restaurant:account' %}">Account</a>
-<a href="{% url 'restaurant:meal' %}">Meal</a>
-<a href="{% url 'restaurant:order' %}">Order</a>
-<a href="{% url 'restaurant:report' %}">Report</a>
+<div class="text-center">
+    <a href="{% url 'restaurant:sign-up' %}?next={{ request.path }}" class="btn btn-pink">Logout</a>
+</div>
 {% endblock sidebar %}
 
 
 
 {% block content %}
 {{ user.username }}
-<a href="{% url 'user:sign-out' %}">Log out</a>
+<!-- <a href="{% url 'user:sign-out' %}">Log out</a> -->
 {% endblock content %}

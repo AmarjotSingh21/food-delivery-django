@@ -18,12 +18,20 @@
 </head>
 
 <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 sidebar">
+                {% block sidebar %}
+                {% endblock sidebar %}
+            </div>
+            <div class="col-lg-10  offset-lg-2 col-md-10 offset-md-2 col-sm-10 offset-sm-2 content">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </div>
 
-    {% block sidebar %}
-    {% endblock sidebar %}
 
-    {% block content %}
-    {% endblock content %}
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

@@ -15,6 +15,14 @@ class UserForm(forms.ModelForm):
                   "email")
 
 
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email")
+
+
 class RestaurantForm(forms.ModelForm):
     class Meta:
         model = Restaurant
