@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
-from restaurant.forms import (RestaurantForm, UserForm, UserUpdateForm)
+from restaurant.forms import (
+    RestaurantForm, UserForm, UserUpdateForm, MealForm)
 
 
 @login_required(login_url='/restaurant/sign-in/')
@@ -41,8 +42,9 @@ def account_view(request):
 
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user)
-        restaurant_form = RestaurantForm(request.POST, request.FILES, instance=request.user.restaurant)
-        
+        restaurant_form = RestaurantForm(
+            request.POST, request.FILES, instance=request.user.restaurant)
+
         if user_form.is_valid() and restaurant_form.is_valid():
             user_form.save()
             restaurant_form.save()
@@ -56,9 +58,19 @@ def account_view(request):
 def meal_view(request):
     return render(request, 'restaurant/meal.html')
 
+
 @login_required(login_url='/restaurant/sign-in/')
 def add_meal_view(request):
-    return render(request, 'restaurant/add_meal.html')
+    form = MealForm()
+
+    if request.method == "POST":
+        form = MealForm(request.POST, request.FILES)
+        if form.is_valid():
+            meal = form.save(commit=False)
+            meal.restaurant = request.user.restaurant
+            meal.save()
+            return redirect('restaurant:meal')
+    return render(request, 'restaurant/add_meal.html', {'form': form})
 
 
 @login_required(login_url='/restaurant/sign-in/')
