@@ -78,6 +78,19 @@ def add_meal_view(request):
 
 
 @login_required(login_url='/restaurant/sign-in/')
+def edit_meal_view(request, meal_id):
+    meal = Meal.objects.get(id=meal_id)
+    form = MealForm(instance=meal)
+
+    if request.method == "POST":
+        form = MealForm(request.POST, request.FILES, instance=meal)
+        if form.is_valid():
+            meal.save()
+            return redirect('restaurant:meal')
+    return render(request, 'restaurant/edit_meal.html', {'form': form})
+
+
+@login_required(login_url='/restaurant/sign-in/')
 def order_view(request):
     return render(request, 'restaurant/order.html')
 

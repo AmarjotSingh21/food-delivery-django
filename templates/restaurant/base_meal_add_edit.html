@@ -1,0 +1,34 @@
+{% extends 'restaurant/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+HomePage
+{% endblock title %}
+
+{% block content %}
+<div class="offset-lg-2 col-lg-8">
+    <div class="card">
+        <div class="card-heading bg-blue">
+            <h4 class="card-title text-center text-white">
+
+                {% block header %}
+                    Add Meal
+
+                {% endblock header %}
+
+            </h4>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {%  bootstrap_form form %}
+                <button class="btn btn-pink" type="submit">
+                    {% block button_name %}
+                    Create
+                    {% endblock button_name%}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

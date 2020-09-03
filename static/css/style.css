@@ -8,8 +8,8 @@ body {
   background-color: #3f3f63;
 }
 
-.bg-grey{
-  background-color: #88A1B2;
+.bg-grey {
+  background-color: #88a1b2;
 }
 
 .btn-pink {
@@ -75,9 +75,8 @@ body {
   text-decoration: none;
   padding-left: 60px;
   padding-right: 30px;
-  
 }
-.sidebar .list-group .list-group-item:active,
+.sidebar .list-group .list-group-item.active,
 .sidebar .list-group .list-group-item:hover {
   background-color: #383957;
   color: #e0deeb;
@@ -108,16 +107,16 @@ body {
   padding: 0 40px;
 }
 
-.content .card{
+.content .card {
   border: none;
 }
 
 .table > thead > tr > th,
 .table > thead > tr > td {
-vertical-align: middle;
+  vertical-align: middle;
 }
 
 .table,
 .table > thead > tr > th {
-border-color: #88A1B2;
+  border-color: #88a1b2;
 }
