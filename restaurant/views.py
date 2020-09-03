@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from restaurant.forms import (
     RestaurantForm, UserForm, UserUpdateForm, MealForm)
-from .models import Meal
+from .models import Meal, Order
 
 
 @login_required(login_url='/restaurant/sign-in/')
@@ -92,7 +92,8 @@ def edit_meal_view(request, meal_id):
 
 @login_required(login_url='/restaurant/sign-in/')
 def order_view(request):
-    return render(request, 'restaurant/order.html')
+    orders = Order.objects.filter(restaurant=request.user.restaurant)
+    return render(request, 'restaurant/order.html', {'orders': orders})
 
 
 @login_required(login_url='/restaurant/sign-in/')

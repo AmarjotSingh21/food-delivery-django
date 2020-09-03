@@ -22,7 +22,7 @@ class Meal(models.Model):
     name = models.CharField(max_length=100)
     short_description = models.CharField(max_length=500)
     image = models.ImageField(upload_to='meal_images/', blank=False)
-    price = models.IntegerField(default=0)
+    price = models.FloatField(default=0)
 
     def __str__(self):
         return self.name
