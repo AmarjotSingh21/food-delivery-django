@@ -6,7 +6,7 @@ from oauth2_provider.models import AccessToken
 from django.views.decorators.csrf import csrf_exempt
 
 from restaurant.models import Restaurant, Meal, Order, OrderDetail
-from .serializers import RestaurantSerializer, MealSerializer
+from .serializers import RestaurantSerializer, MealSerializer, OrderSerializer
 
 
 def get_restaurants(request):
@@ -57,7 +57,6 @@ def add_order(request):
         order_details = json.loads(request.POST['order_details'])
 
         order_total = 0
-        print(order_details)
         for meal in order_details:
             order_total += Meal.objects.get(
                 id=meal['meal_id']).price * meal['quantity']
@@ -71,7 +70,6 @@ def add_order(request):
 
             # Create order details
             for meal_data in order_details:
-                print(meal_data)
                 meal = Meal.objects.get(id=meal_data['meal_id'])
                 quantity = meal_data['quantity']
                 OrderDetail.objects.create(
@@ -80,6 +78,17 @@ def add_order(request):
                 )
             return JsonResponse({"status": "success"})
 
-
+@csrf_exempt
 def get_latest_order(request):
-    return JsonResponse({})
+    access_token = AccessToken.objects.get(
+        token=request.GET.get('access_token'), expires__gt=timezone.now())
+    customer = access_token.user.customer
+    order = OrderSerializer(Order.objects.filter(
+        customer=customer).last()).data
+    return JsonResponse({"order": order})
+
+
+def restaurant_order_notification(request, last_request_time: str):
+    notification = Order.objects.filter(restaurant=request.user.restaurant,
+                                        created_at__gt=last_request_time).count()
+    return JsonResponse({"notification": notification})
