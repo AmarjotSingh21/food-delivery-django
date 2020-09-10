@@ -79,7 +79,7 @@ def add_order(request):
             return JsonResponse({"status": "success"})
 
 @csrf_exempt
-def get_latest_order(request):
+def customer_get_latest_order(request):
     access_token = AccessToken.objects.get(
         token=request.GET.get('access_token'), expires__gt=timezone.now())
     customer = access_token.user.customer
