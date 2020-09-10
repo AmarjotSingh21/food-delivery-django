@@ -8,15 +8,19 @@ from django.views.decorators.csrf import csrf_exempt
 from restaurant.models import Restaurant, Meal, Order, OrderDetail
 from .serializers import RestaurantSerializer, MealSerializer, OrderSerializer
 
+# * ##########
+# * CUSTOMER
+# * ##########
 
-def get_restaurants(request):
+
+def customer_get_restaurants(request):
     restaurants = Restaurant.objects.all().order_by('-id')
     json_data = RestaurantSerializer(restaurants, many=True, context={
                                      'request': request}).data
     return JsonResponse({'restaurants': json_data})
 
 
-def get_meals(request, restaurant_id):
+def customer_get_meals(request, restaurant_id):
     meals = Meal.objects.filter(restaurant__id=restaurant_id).order_by('-id')
     json_data = MealSerializer(meals, many=True, context={
                                'request': request}).data
@@ -24,18 +28,15 @@ def get_meals(request, restaurant_id):
 
 
 @csrf_exempt
-def add_order(request):
+def customer_add_order(request):
     """
-        params:
-            access_token
-            restaurant_id
-            address
-            order_details ( json ), example:
+        params: access_token, restaurant_id, address, stripe_token, order_details
+
+        order_details: ( json ), example:
                 [{"meal_id":1, "quantity":2},
                 {"meal_id":2, "quantity":1}]
-            stripe_token
-        return:
-            {"status":"success"}
+
+        returns: {"status":"success"}
     """
     if request.method == "POST":
         # Get Token
@@ -78,6 +79,7 @@ def add_order(request):
                 )
             return JsonResponse({"status": "success"})
 
+
 @csrf_exempt
 def customer_get_latest_order(request):
     access_token = AccessToken.objects.get(
@@ -88,7 +90,63 @@ def customer_get_latest_order(request):
     return JsonResponse({"order": order})
 
 
+# * ##########
+# * RESTAURANT
+# * ##########
 def restaurant_order_notification(request, last_request_time: str):
     notification = Order.objects.filter(restaurant=request.user.restaurant,
                                         created_at__gt=last_request_time).count()
     return JsonResponse({"notification": notification})
+
+
+# * ######
+# * DRIVER
+# * ######
+
+def driver_get_ready_orders(request):
+    orders = OrderSerializer(Order.objects.filter(
+        status=Order.READY, driver=None).order_by('-id'),
+        many=True).data
+    return JsonResponse({"orders": orders})
+
+
+@csrf_exempt
+def driver_pick_order(request):
+    """ POST params: access_token, order_id """
+    if request.method == "POST":
+        # Get Token
+        access_token = AccessToken.objects.get(
+            token=request.POST.get("access_token"), expires__gt=timezone.now())
+
+        # Get Driver
+        driver = access_token.user.driver
+
+        # Check if driver can pick 1 order at the same time
+        if Order.objects.filter(driver=driver).exclude(status=Order.ONTHEWAY).exists():
+            return JsonResponse({"status": "failed",
+                                 "error": "You can only pick one order at the same time"})
+        try:
+            order = Order.objects.get(
+                id=request.POST['order_id'],
+                driver=None,
+                status=Order.READY
+            )
+            order.driver = driver
+            order.status = Order.ONTHEWAY
+            order.picked_at = timezone.now()
+            order.save()
+            return JsonResponse({"status": "success"})
+        except Order.DoesNotExist:
+            return JsonResponse({"status": "failed", "error": "This order has been picked up by another driver"})
+
+
+def driver_get_latest_order(request):
+    return JsonResponse({})
+
+
+def driver_complete_order(request):
+    return JsonResponse({})
+
+
+def driver_get_revenue(request):
+    return JsonResponse({})

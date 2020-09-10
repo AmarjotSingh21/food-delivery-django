@@ -9,7 +9,7 @@ urlpatterns = [
     path('restaurant/', include('restaurant.urls')),
     path('user/', include('user.urls')),
     path('api/customer/', include('restaurant.api.customer_urls')),
-    path('api/driver/', include('restaurant.api.restaurant_urls')),
+    path('api/driver/', include('restaurant.api.driver_urls')),
     path('api/restaurant/', include('restaurant.api.restaurant_urls')),
     path('api/social/', include('rest_framework_social_oauth2.urls'))
 ]

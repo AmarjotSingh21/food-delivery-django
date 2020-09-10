@@ -70,9 +70,9 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    customer = OrderCustomerSerializer
-    driver = OrderDriverSerializer
-    restaurant = OrderRestaurantSerializer
+    customer = OrderCustomerSerializer()
+    driver = OrderDriverSerializer()
+    restaurant = OrderRestaurantSerializer()
     order_details = OrderDetailSerializer(many=True)
     status = serializers.ReadOnlyField(source='get_status_display')
 
