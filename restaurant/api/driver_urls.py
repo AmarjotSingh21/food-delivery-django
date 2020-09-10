@@ -9,5 +9,5 @@ urlpatterns = [
     path('order/pick/', driver_pick_order),
     path('order/latest/', driver_get_latest_order),
     path('order/complete/', driver_complete_order),
-    path('order/latest/', driver_get_revenue),
+    path('order/revenue/', driver_get_revenue),
 ]
